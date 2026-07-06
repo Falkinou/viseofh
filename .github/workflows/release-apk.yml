@@ -1,0 +1,105 @@
+name: Publish Orange DroneKit APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "app/**"
+      - "gradle/**"
+      - "build.gradle.kts"
+      - "settings.gradle.kts"
+      - "gradle.properties"
+      - "github-pages-upload/orange-dronekit/**"
+      - ".github/workflows/release-apk.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build APK
+        run: ./gradlew --no-daemon :app:packageOrangeDroneKitApk
+
+      - name: Read version
+        id: version
+        shell: bash
+        run: |
+          VERSION_NAME="$(grep -E 'versionName = ' app/build.gradle.kts | head -1 | sed -E 's/.*"([^"]+)".*/\1/')"
+          VERSION_CODE="$(grep -E 'versionCode = ' app/build.gradle.kts | head -1 | sed -E 's/.*= ([0-9]+).*/\1/')"
+          echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          echo "code=$VERSION_CODE" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+        shell: bash
+        run: |
+          if ! git rev-parse "$TAG" >/dev/null 2>&1; then
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/Orange-DroneKit.apk --clobber
+          else
+            gh release create "$TAG" dist/Orange-DroneKit.apk \
+              --title "Orange DroneKit $VERSION_NAME" \
+              --notes "APK Orange DroneKit $VERSION_NAME généré automatiquement par GitHub Actions."
+          fi
+
+      - name: Prepare website files
+        shell: bash
+        run: |
+          mkdir -p public/orange-dronekit
+          rsync -av --delete --exclude "Orange-DroneKit.apk" github-pages-upload/orange-dronekit/ public/orange-dronekit/
+          cat > public/orange-dronekit/version.json <<JSON
+          {
+            "versionCode": ${{ steps.version.outputs.code }},
+            "versionName": "${{ steps.version.outputs.name }}",
+            "apkUrl": "https://github.com/${{ github.repository }}/releases/latest/download/Orange-DroneKit.apk"
+          }
+          JSON
+
+      - name: Publish website to gh-pages
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -rf /tmp/orange-dronekit-pages
+          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            git worktree add /tmp/orange-dronekit-pages origin/gh-pages
+            cd /tmp/orange-dronekit-pages
+            git checkout -B gh-pages
+          else
+            git worktree add --detach /tmp/orange-dronekit-pages
+            cd /tmp/orange-dronekit-pages
+            git checkout --orphan gh-pages
+            git rm -rf . || true
+          fi
+          rsync -av --delete "$GITHUB_WORKSPACE/public/" /tmp/orange-dronekit-pages/
+          touch .nojekyll
+          git add .
+          git commit -m "Deploy Orange DroneKit ${{ steps.version.outputs.name }}" || exit 0
+          git push origin gh-pages
