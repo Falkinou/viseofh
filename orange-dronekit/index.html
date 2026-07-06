@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07161b">
+  <title>Orange DroneKit - Télécharger l'APK</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --orange: #ff7900;
+      --cyan: #20bdf2;
+      --green: #2ecc71;
+      --red: #ff4d4d;
+      --bg: #061419;
+      --panel: rgba(10, 31, 38, .74);
+      --panel-soft: rgba(255, 255, 255, .08);
+      --line: rgba(255, 255, 255, .16);
+      --text: #fff;
+      --muted: rgba(255, 255, 255, .72);
+      --soft: rgba(255, 255, 255, .52);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 92%, rgba(255, 121, 0, .30), transparent 34%),
+        radial-gradient(circle at 78% 8%, rgba(32, 189, 242, .15), transparent 26%),
+        linear-gradient(145deg, #092a31, #061116 55%, #020405);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(110deg, transparent 0 58%, rgba(255, 121, 0, .11) 58% 59%, transparent 59%),
+        linear-gradient(118deg, transparent 0 66%, rgba(255, 121, 0, .07) 66% 67%, transparent 67%);
+      opacity: .86;
+    }
+
+    .page {
+      position: relative;
+      width: min(1180px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 28px 22px;
+      display: grid;
+      align-items: center;
+    }
+
+    .shell {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .10), rgba(255, 255, 255, .035)), var(--panel);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, .48);
+      overflow: hidden;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 26px;
+      padding: 28px;
+      min-height: 680px;
+    }
+
+    .side {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+      border-radius: 18px;
+      padding: 24px;
+      background: rgba(0, 0, 0, .28);
+      border: 1px solid rgba(255, 255, 255, .14);
+    }
+
+    .logo-wrap {
+      background: white;
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, .36);
+    }
+
+    .logo {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--orange);
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(48px, 6vw, 76px);
+      line-height: .92;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.42;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 58px;
+      padding: 0 22px;
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 12px;
+      background: var(--orange);
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 900;
+      box-shadow: 0 18px 42px rgba(255, 121, 0, .28);
+      cursor: pointer;
+    }
+
+    button.button {
+      font-family: inherit;
+    }
+
+    .button[disabled] {
+      opacity: .52;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, .08);
+      box-shadow: none;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 18px;
+    }
+
+    .status {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .status-card,
+    .tool,
+    .access {
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .08);
+    }
+
+    .status-card {
+      min-height: 100px;
+      padding: 16px;
+      color: rgba(255, 255, 255, .68);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .status-card b {
+      display: block;
+      margin-top: 8px;
+      color: white;
+      font-size: 25px;
+      line-height: 1.05;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .tool {
+      min-height: 124px;
+      padding: 16px;
+    }
+
+    .tool strong {
+      display: block;
+      margin: 10px 0 6px;
+      color: #fff;
+      font-size: 18px;
+    }
+
+    .tool span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .icon {
+      width: 34px;
+      height: 34px;
+      color: var(--orange);
+    }
+
+    .access {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+      padding: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      color: rgba(255, 255, 255, .70);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    input {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(255, 255, 255, .20);
+      border-radius: 10px;
+      padding: 0 14px;
+      background: rgba(0, 0, 0, .28);
+      color: white;
+      font-size: 17px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: rgba(255, 121, 0, .88);
+      box-shadow: 0 0 0 3px rgba(255, 121, 0, .16);
+    }
+
+    .access .button {
+      width: auto;
+      min-width: 150px;
+      min-height: 48px;
+      box-shadow: none;
+    }
+
+    .message {
+      grid-column: 1 / -1;
+      min-height: 20px;
+      margin: 0;
+      color: var(--soft);
+      font-size: 14px;
+    }
+
+    .message.ok {
+      color: #9ff0bd;
+    }
+
+	    .message.error {
+	      color: #ffb1a7;
+	    }
+
+	    .release-note {
+	      display: grid;
+	      grid-template-columns: auto 1fr;
+	      gap: 14px;
+	      align-items: start;
+	      padding: 16px;
+	      border: 1px solid rgba(255, 121, 0, .22);
+	      border-radius: 14px;
+	      background: linear-gradient(135deg, rgba(255, 121, 0, .16), rgba(255, 255, 255, .06));
+	    }
+
+	    .release-dot {
+	      display: grid;
+	      place-items: center;
+	      width: 42px;
+	      height: 42px;
+	      border-radius: 12px;
+	      background: rgba(255, 121, 0, .20);
+	      color: var(--orange);
+	      font-weight: 900;
+	    }
+
+	    .release-note strong {
+	      display: block;
+	      margin-bottom: 5px;
+	      font-size: 17px;
+	    }
+
+	    .release-note p {
+	      margin: 0;
+	      color: var(--muted);
+	      font-size: 14px;
+	      line-height: 1.45;
+	    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .10);
+      border: 1px solid rgba(255, 255, 255, .14);
+      color: rgba(255, 255, 255, .82);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 28px 26px;
+      color: var(--soft);
+      font-size: 14px;
+      border-top: 1px solid rgba(255, 255, 255, .10);
+    }
+
+    code {
+      color: white;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    @media (max-width: 940px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .status,
+      .tools {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        padding: 12px;
+      }
+
+      .layout {
+        padding: 14px;
+      }
+
+      .status,
+      .tools,
+      .access {
+        grid-template-columns: 1fr;
+      }
+
+      .access .button {
+        width: 100%;
+      }
+
+      footer {
+        flex-direction: column;
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <main class="shell">
+      <section class="layout">
+        <aside class="side">
+          <div class="logo-wrap">
+            <img class="logo" src="./logo.png" alt="Orange DroneKit">
+          </div>
+          <div>
+            <p class="eyebrow">APK Android pour radiocommandes DJI Enterprise</p>
+            <h1>Orange<br>DroneKit</h1>
+	            <p class="lead">Boîte à outils terrain : export USB, lecture des logs DJI, rapports PDF, diagnostic support et fonds d'écran RC.</p>
+          </div>
+          <a id="downloadLink" class="button" href="#" aria-disabled="true">Déverrouiller le téléchargement</a>
+        </aside>
+
+        <section class="dashboard">
+          <div class="status" aria-label="Informations de version">
+	            <div class="status-card">Version<b>1.10.14</b></div>
+            <div class="status-card">Format<b>APK</b></div>
+            <div class="status-card">Cible<b>RC DJI</b></div>
+            <div class="status-card">Mode<b>Terrain</b></div>
+          </div>
+
+	          <div class="tools">
+            <div class="tool">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 20h14v-2H5v2Zm7-18 5 5h-3v6h-4V7H7l5-5Z"/></svg>
+              <strong>SyncLog</strong>
+              <span>Mail direct ou dépôt via MSURVEY DroneLog.</span>
+            </div>
+            <div class="tool">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17h18v2H3v-2Zm2-3 4-6 4 4 3-5 3 7H5Z"/></svg>
+              <strong>PlayLog</strong>
+              <span>Trajectoire, télémétrie et rapport PDF de vol.</span>
+            </div>
+            <div class="tool">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 2h8v6h2v7a4 4 0 0 1-4 4h-1v3h-2v-3h-1a4 4 0 0 1-4-4V8h2V2Zm2 2v4h4V4h-4Z"/></svg>
+              <strong>FlightExportUSB</strong>
+              <span>Export terrain des logs et médias vers clé USB.</span>
+            </div>
+            <div class="tool">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 5h16v12H4V5Zm2 2v8h12V7H6Zm2 14h8v-2H8v2Z"/></svg>
+              <strong>Screen</strong>
+              <span>Création de fonds d'écran adaptés aux RC DJI.</span>
+            </div>
+            <div class="tool">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11 10h2v8h-2v-8Zm0-4h2v2h-2V6Zm1-4a10 10 0 1 1 0 20 10 10 0 0 1 0-20Z"/></svg>
+              <strong>Info</strong>
+              <span>Informations internes et documentation terrain.</span>
+            </div>
+            <div class="tool">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6l-8-4Zm0 4 4 2v4c0 2.8-1.5 5.1-4 6.3-2.5-1.2-4-3.5-4-6.3V8l4-2Z"/></svg>
+              <strong>PinPoint</strong>
+              <span>Préparation des sites vers DJI Pilot 2.</span>
+            </div>
+	          </div>
+
+	          <div class="release-note">
+	            <div class="release-dot">14</div>
+	            <div>
+	              <strong>Publication et SyncLog simplifiés</strong>
+	              <p>Nom Android corrigé, splash animé, onglet MSURVEY intégré et publication automatique de l'APK via GitHub Release.</p>
+	            </div>
+	          </div>
+
+	          <form class="access" id="accessForm">
+            <div class="field">
+              <label for="accessCode">Code de téléchargement</label>
+              <input id="accessCode" name="accessCode" type="password" autocomplete="off" placeholder="Saisir le code">
+            </div>
+            <button class="button" type="submit">Valider</button>
+            <p class="message" id="message">Le téléchargement est réservé à un usage interne.</p>
+          </form>
+
+          <div class="pill-row">
+            <span class="pill">Fichier : <code>Orange-DroneKit.apk</code></span>
+            <span class="pill">Hébergement : GitHub Release</span>
+            <span class="pill">Compatible DJI RC Plus 2 / RC 2</span>
+          </div>
+        </section>
+      </section>
+
+      <footer>
+        <span>© Loïc Arnold - loic.arnold@orange.com</span>
+        <span>Orange DroneKit</span>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const APK_URL = "https://github.com/Falkinou/viseofh/releases/latest/download/Orange-DroneKit.apk";
+    const ACCESS_HASH = "bfc3e69d605c835fc7bdab6cfa81cee0c4ea9d750e541e22a767f81bfe39cfed";
+
+    async function sha256(value) {
+      const bytes = new TextEncoder().encode(value);
+      const digest = await crypto.subtle.digest("SHA-256", bytes);
+      return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, "0")).join("");
+    }
+
+    function unlockDownload() {
+      const link = document.getElementById("downloadLink");
+      const message = document.getElementById("message");
+      link.href = APK_URL;
+      link.textContent = "Télécharger Orange DroneKit";
+      link.removeAttribute("aria-disabled");
+      message.textContent = "Code validé. Le téléchargement est disponible.";
+      message.className = "message ok";
+      sessionStorage.setItem("orangeDroneKitAccess", "ok");
+    }
+
+    document.getElementById("downloadLink").addEventListener("click", event => {
+      if (event.currentTarget.getAttribute("aria-disabled") === "true") {
+        event.preventDefault();
+        document.getElementById("accessCode").focus();
+      }
+    });
+
+    document.getElementById("accessForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const code = document.getElementById("accessCode").value.trim();
+      const message = document.getElementById("message");
+      if (await sha256(code) === ACCESS_HASH) {
+        unlockDownload();
+      } else {
+        message.textContent = "Code incorrect.";
+        message.className = "message error";
+      }
+    });
+
+    if (sessionStorage.getItem("orangeDroneKitAccess") === "ok") {
+      unlockDownload();
+    }
+  </script>
+</body>
+</html>
