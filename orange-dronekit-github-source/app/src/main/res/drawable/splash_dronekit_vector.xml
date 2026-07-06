@@ -1,0 +1,64 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:name="tile_drone"
+        android:translateY="-44">
+        <path
+            android:fillColor="#FF7900"
+            android:pathData="M10,10h40v40h-40z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M25,28h10a5,5 0,0 1,5 5v1a5,5 0,0 1,-5 5h-10a5,5 0,0 1,-5 -5v-1a5,5 0,0 1,5 -5z" />
+        <path
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="2.7"
+            android:strokeLineCap="round"
+            android:fillColor="#00000000"
+            android:pathData="M22,30L15,24M38,30L45,24M23,39L16,45M37,39L44,45" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M12,22a8,3.5 0,1 0,16 0a8,3.5 0,1 0,-16 0M32,22a8,3.5 0,1 0,16 0a8,3.5 0,1 0,-16 0" />
+    </group>
+
+    <group
+        android:name="tile_map"
+        android:translateY="-54">
+        <path
+            android:fillColor="#FF7900"
+            android:pathData="M58,10h40v40h-40z" />
+        <path
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="4.5"
+            android:strokeLineJoin="round"
+            android:fillColor="#00000000"
+            android:pathData="M68,20L78,16L88,20L96,16V40L88,44L78,40L68,44zM78,16v24M88,20v24" />
+    </group>
+
+    <group
+        android:name="tile_gear"
+        android:translateY="-64">
+        <path
+            android:fillColor="#FF7900"
+            android:pathData="M10,58h40v40h-40z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M30,65l4,1l2,5l5,-1l4,7l-4,4l1,5l5,3l-3,7l-6,-2l-4,4h-8l-4,-4l-6,2l-3,-7l5,-3l1,-5l-4,-4l4,-7l5,1l2,-5zM30,78m-8,0a8,8 0,1 0,16 0a8,8 0,1 0,-16 0" />
+        <path
+            android:fillColor="#FF7900"
+            android:pathData="M30,83m-4,0a4,4 0,1 0,8 0a4,4 0,1 0,-8 0" />
+    </group>
+
+    <group
+        android:name="tile_bars"
+        android:translateY="-74">
+        <path
+            android:fillColor="#FF7900"
+            android:pathData="M58,58h40v40h-40z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M67,84h8v8h-8zM79,76h8v16h-8zM91,66h8v26h-8z" />
+    </group>
+</vector>

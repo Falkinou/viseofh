@@ -1,0 +1,15 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/splash_dronekit_vector">
+    <target
+        android:name="tile_drone"
+        android:animation="@animator/splash_tile_1" />
+    <target
+        android:name="tile_map"
+        android:animation="@animator/splash_tile_2" />
+    <target
+        android:name="tile_gear"
+        android:animation="@animator/splash_tile_3" />
+    <target
+        android:name="tile_bars"
+        android:animation="@animator/splash_tile_4" />
+</animated-vector>
