@@ -36,6 +36,23 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Check Android project
+        shell: bash
+        run: |
+          test -f gradlew || {
+            echo "::error::Fichier gradlew introuvable. Le workflow doit être à la racine du projet Android complet, pas seulement dans le dépôt du site."
+            exit 1
+          }
+          test -f settings.gradle.kts || {
+            echo "::error::settings.gradle.kts introuvable. Copier tout le projet Android Orange DroneKit sur GitHub."
+            exit 1
+          }
+          test -f app/build.gradle.kts || {
+            echo "::error::app/build.gradle.kts introuvable. Le dossier app/ manque dans le dépôt GitHub."
+            exit 1
+          }
+          chmod +x ./gradlew
+
       - name: Build APK
         run: ./gradlew --no-daemon :app:packageOrangeDroneKitApk
 
