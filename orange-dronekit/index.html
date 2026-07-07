@@ -269,44 +269,9 @@
       color: #9ff0bd;
     }
 
-	    .message.error {
-	      color: #ffb1a7;
-	    }
-
-	    .release-note {
-	      display: grid;
-	      grid-template-columns: auto 1fr;
-	      gap: 14px;
-	      align-items: start;
-	      padding: 16px;
-	      border: 1px solid rgba(255, 121, 0, .22);
-	      border-radius: 14px;
-	      background: linear-gradient(135deg, rgba(255, 121, 0, .16), rgba(255, 255, 255, .06));
-	    }
-
-	    .release-dot {
-	      display: grid;
-	      place-items: center;
-	      width: 42px;
-	      height: 42px;
-	      border-radius: 12px;
-	      background: rgba(255, 121, 0, .20);
-	      color: var(--orange);
-	      font-weight: 900;
-	    }
-
-	    .release-note strong {
-	      display: block;
-	      margin-bottom: 5px;
-	      font-size: 17px;
-	    }
-
-	    .release-note p {
-	      margin: 0;
-	      color: var(--muted);
-	      font-size: 14px;
-	      line-height: 1.45;
-	    }
+    .message.error {
+      color: #ffb1a7;
+    }
 
     .pill-row {
       display: flex;
@@ -390,24 +355,24 @@
           <div>
             <p class="eyebrow">APK Android pour radiocommandes DJI Enterprise</p>
             <h1>Orange<br>DroneKit</h1>
-	            <p class="lead">Boîte à outils terrain : export USB, lecture des logs DJI, rapports PDF, diagnostic support et fonds d'écran RC.</p>
+            <p class="lead">Boîte à outils terrain : export USB, lecture des logs DJI, rapports PDF et fonds d'écran RC.</p>
           </div>
           <a id="downloadLink" class="button" href="#" aria-disabled="true">Saisir une adresse Orange</a>
         </aside>
 
         <section class="dashboard">
           <div class="status" aria-label="Informations de version">
-	            <div class="status-card">Version<b>1.20</b></div>
+            <div class="status-card">Version<b>1.21</b></div>
             <div class="status-card">Format<b>APK</b></div>
             <div class="status-card">Cible<b>RC DJI</b></div>
             <div class="status-card">Téléchargements<b id="downloadCount">...</b></div>
           </div>
 
-	          <div class="tools">
+          <div class="tools">
             <div class="tool">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 20h14v-2H5v2Zm7-18 5 5h-3v6h-4V7H7l5-5Z"/></svg>
               <strong>SyncLog</strong>
-              <span>Mail direct ou dépôt via MSURVEY DroneLog.</span>
+              <span>Détection et historique des FlightRecord DJI.</span>
             </div>
             <div class="tool">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17h18v2H3v-2Zm2-3 4-6 4 4 3-5 3 7H5Z"/></svg>
@@ -434,15 +399,7 @@
               <strong>PinPoint</strong>
               <span>Préparation des sites vers DJI Pilot 2.</span>
             </div>
-	          </div>
-
-	          <div class="release-note">
-	            <div class="release-dot">14</div>
-	            <div>
-	              <strong>Publication et SyncLog simplifiés</strong>
-	              <p>Nom Android corrigé, SyncLog sécurisé via MSURVEY, publication automatique de l'APK via GitHub Release.</p>
-	            </div>
-	          </div>
+          </div>
 
           <form class="access" id="accessForm">
             <div class="field">
@@ -454,7 +411,7 @@
           </form>
 
           <div class="pill-row">
-            <span class="pill">Fichier : <code id="apkFileName">Orange-DroneKit.apk</code></span>
+            <span class="pill">Fichier : <code id="apkFileName">Orange-DroneKit-1.21.apk</code></span>
             <span class="pill">Hébergement : GitHub Release</span>
             <span class="pill">Compatible DJI RC Plus 2 / RC 2</span>
           </div>
@@ -469,9 +426,9 @@
   </div>
 
   <script>
-    let apkUrl = "https://github.com/Falkinou/viseofh/releases/latest/download/Orange-DroneKit.apk";
+    let apkUrl = "https://github.com/Falkinou/viseofh/releases/latest/download/Orange-DroneKit-1.21.apk";
     const RELEASE_API_URL = "https://api.github.com/repos/Falkinou/viseofh/releases/latest";
-    const PREFERRED_APK_FILE_NAMES = ["Orange-DroneKit-1.20.apk", "Orange-DroneKit.apk"];
+    const PREFERRED_APK_FILE_NAMES = ["Orange-DroneKit-1.21.apk"];
     const ORANGE_EMAIL_PATTERN = /^[^\s@]+@orange\.com$/i;
 
     function unlockDownload() {
@@ -494,13 +451,10 @@
         const asset = PREFERRED_APK_FILE_NAMES
           .map(name => release.assets?.find(item => item.name === name))
           .find(Boolean);
-        if (asset) {
-          apkUrl = asset.browser_download_url || apkUrl;
-          document.getElementById("apkFileName").textContent = asset.name;
-          target.textContent = new Intl.NumberFormat("fr-FR").format(asset.download_count || 0);
-        } else {
-          target.textContent = "-";
-        }
+        if (!asset) throw new Error("APK 1.21 absente de la dernière release");
+        apkUrl = asset.browser_download_url || apkUrl;
+        document.getElementById("apkFileName").textContent = asset.name;
+        target.textContent = new Intl.NumberFormat("fr-FR").format(asset.download_count || 0);
       } catch (error) {
         target.textContent = "-";
       }
