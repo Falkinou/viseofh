@@ -357,15 +357,15 @@
             <h1>Orange<br>DroneKit</h1>
             <p class="lead">Boîte à outils terrain : export USB, lecture des logs DJI, rapports PDF et fonds d'écran RC.</p>
           </div>
-          <a id="downloadLink" class="button" href="#" aria-disabled="true">Déverrouiller le téléchargement</a>
+          <a id="downloadLink" class="button" href="#" aria-disabled="true">Saisir une adresse Orange</a>
         </aside>
 
         <section class="dashboard">
           <div class="status" aria-label="Informations de version">
-            <div class="status-card">Version<b>1.10.3</b></div>
+            <div class="status-card">Version<b>1.21</b></div>
             <div class="status-card">Format<b>APK</b></div>
             <div class="status-card">Cible<b>RC DJI</b></div>
-            <div class="status-card">Mode<b>Terrain</b></div>
+            <div class="status-card">Téléchargements<b id="downloadCount">...</b></div>
           </div>
 
           <div class="tools">
@@ -403,15 +403,15 @@
 
           <form class="access" id="accessForm">
             <div class="field">
-              <label for="accessCode">Code de téléchargement</label>
-              <input id="accessCode" name="accessCode" type="password" autocomplete="off" placeholder="Saisir le code">
+              <label for="orangeEmail">Adresse Orange</label>
+              <input id="orangeEmail" name="orangeEmail" type="email" autocomplete="email" placeholder="prenom.nom@orange.com">
             </div>
             <button class="button" type="submit">Valider</button>
-            <p class="message" id="message">Le téléchargement est réservé à un usage interne.</p>
+            <p class="message" id="message">Le téléchargement est réservé aux utilisateurs avec une adresse @orange.com.</p>
           </form>
 
           <div class="pill-row">
-            <span class="pill">Fichier : <code>Orange-DroneKit.apk</code></span>
+            <span class="pill">Fichier : <code id="apkFileName">Orange-DroneKit-1.21.apk</code></span>
             <span class="pill">Hébergement : GitHub Release</span>
             <span class="pill">Compatible DJI RC Plus 2 / RC 2</span>
           </div>
@@ -426,41 +426,55 @@
   </div>
 
   <script>
-    const APK_URL = "https://github.com/Falkinou/viseofh/releases/latest/download/Orange-DroneKit.apk";
-    const ACCESS_HASH = "bfc3e69d605c835fc7bdab6cfa81cee0c4ea9d750e541e22a767f81bfe39cfed";
-
-    async function sha256(value) {
-      const bytes = new TextEncoder().encode(value);
-      const digest = await crypto.subtle.digest("SHA-256", bytes);
-      return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, "0")).join("");
-    }
+    let apkUrl = "https://github.com/Falkinou/viseofh/releases/latest/download/Orange-DroneKit-1.21.apk";
+    const RELEASE_API_URL = "https://api.github.com/repos/Falkinou/viseofh/releases/latest";
+    const PREFERRED_APK_FILE_NAMES = ["Orange-DroneKit-1.21.apk"];
+    const ORANGE_EMAIL_PATTERN = /^[^\s@]+@orange\.com$/i;
 
     function unlockDownload() {
       const link = document.getElementById("downloadLink");
       const message = document.getElementById("message");
-      link.href = APK_URL;
+      link.href = apkUrl;
       link.textContent = "Télécharger Orange DroneKit";
       link.removeAttribute("aria-disabled");
-      message.textContent = "Code validé. Le téléchargement est disponible.";
+      message.textContent = "Adresse @orange.com validée. Le téléchargement est disponible.";
       message.className = "message ok";
       sessionStorage.setItem("orangeDroneKitAccess", "ok");
+    }
+
+    async function refreshDownloadStats() {
+      const target = document.getElementById("downloadCount");
+      try {
+        const response = await fetch(RELEASE_API_URL, { headers: { "Accept": "application/vnd.github+json" } });
+        if (!response.ok) throw new Error("GitHub API indisponible");
+        const release = await response.json();
+        const asset = PREFERRED_APK_FILE_NAMES
+          .map(name => release.assets?.find(item => item.name === name))
+          .find(Boolean);
+        if (!asset) throw new Error("APK 1.21 absente de la dernière release");
+        apkUrl = asset.browser_download_url || apkUrl;
+        document.getElementById("apkFileName").textContent = asset.name;
+        target.textContent = new Intl.NumberFormat("fr-FR").format(asset.download_count || 0);
+      } catch (error) {
+        target.textContent = "-";
+      }
     }
 
     document.getElementById("downloadLink").addEventListener("click", event => {
       if (event.currentTarget.getAttribute("aria-disabled") === "true") {
         event.preventDefault();
-        document.getElementById("accessCode").focus();
+        document.getElementById("orangeEmail").focus();
       }
     });
 
-    document.getElementById("accessForm").addEventListener("submit", async event => {
+    document.getElementById("accessForm").addEventListener("submit", event => {
       event.preventDefault();
-      const code = document.getElementById("accessCode").value.trim();
+      const email = document.getElementById("orangeEmail").value.trim();
       const message = document.getElementById("message");
-      if (await sha256(code) === ACCESS_HASH) {
+      if (ORANGE_EMAIL_PATTERN.test(email)) {
         unlockDownload();
       } else {
-        message.textContent = "Code incorrect.";
+        message.textContent = "Utilisez une adresse professionnelle se terminant par @orange.com.";
         message.className = "message error";
       }
     });
@@ -468,6 +482,7 @@
     if (sessionStorage.getItem("orangeDroneKitAccess") === "ok") {
       unlockDownload();
     }
+    refreshDownloadStats();
   </script>
 </body>
 </html>
