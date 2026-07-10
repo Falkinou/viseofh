@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07161b">
+  <title>Orange Drone Compagnon - Télécharger l'APK</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --orange: #ff7900;
+      --green: #18d66f;
+      --cyan: #33c5ff;
+      --bg: #061419;
+      --panel: rgba(7, 22, 27, .82);
+      --line: rgba(255, 255, 255, .16);
+      --text: #fff;
+      --muted: rgba(255, 255, 255, .72);
+      --soft: rgba(255, 255, 255, .50);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 92%, rgba(255, 121, 0, .34), transparent 34%),
+        radial-gradient(circle at 82% 10%, rgba(51, 197, 255, .13), transparent 28%),
+        linear-gradient(145deg, #082b33 0%, #07161b 52%, #020506 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(118deg, transparent 0 64%, rgba(255, 121, 0, .12) 64% 65%, transparent 65%),
+        linear-gradient(124deg, transparent 0 72%, rgba(255, 255, 255, .05) 72% 73%, transparent 73%);
+      opacity: .8;
+    }
+
+    .page {
+      position: relative;
+      width: min(1180px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 28px 22px;
+      display: grid;
+      align-items: center;
+    }
+
+    .shell {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,.105), rgba(255,255,255,.035)), var(--panel);
+      box-shadow: 0 28px 90px rgba(0,0,0,.48);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 26px;
+      padding: 28px;
+      min-height: 660px;
+    }
+
+    .side {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 18px;
+      padding: 24px;
+      background: rgba(0,0,0,.26);
+    }
+
+    .logo-wrap {
+      padding: 12px;
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 22px 60px rgba(0,0,0,.36);
+    }
+
+    .logo {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--orange);
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(46px, 6vw, 72px);
+      line-height: .92;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.42;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 58px;
+      padding: 0 22px;
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: 12px;
+      background: var(--orange);
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 900;
+      box-shadow: 0 18px 42px rgba(255,121,0,.28);
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-rows: auto 1fr auto auto;
+      gap: 18px;
+    }
+
+    .status {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .status-card,
+    .tool,
+    .release-note {
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 14px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .status-card {
+      min-height: 96px;
+      padding: 16px;
+      color: rgba(255,255,255,.68);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .status-card b {
+      display: block;
+      margin-top: 8px;
+      color: white;
+      font-size: 24px;
+      line-height: 1.05;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .tool {
+      min-height: 126px;
+      padding: 16px;
+    }
+
+    .tool strong {
+      display: block;
+      margin: 8px 0 6px;
+      color: white;
+      font-size: 18px;
+    }
+
+    .tool span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: rgba(255,121,0,.15);
+      color: var(--orange);
+      font-weight: 900;
+      font-size: 20px;
+    }
+
+    .release-note {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(255,121,0,.17), rgba(255,255,255,.06));
+    }
+
+    .release-dot {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      background: rgba(255,121,0,.22);
+      color: var(--orange);
+      font-weight: 900;
+    }
+
+    .release-note strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 17px;
+    }
+
+    .release-note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    code {
+      color: white;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 28px 26px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: var(--soft);
+      font-size: 14px;
+    }
+
+    @media (max-width: 940px) {
+      .layout { grid-template-columns: 1fr; }
+      .status, .tools { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 560px) {
+      .page { padding: 12px; }
+      .layout { padding: 14px; }
+      .status, .tools { grid-template-columns: 1fr; }
+      footer { flex-direction: column; padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <main class="shell">
+      <section class="layout">
+        <aside class="side">
+          <div class="logo-wrap">
+            <img class="logo" src="./logo.png" alt="Orange Drone Compagnon">
+          </div>
+          <div>
+            <p class="eyebrow">APK Android pour radiocommandes DJI Enterprise</p>
+            <h1>Orange<br>Drone Compagnon</h1>
+            <p class="lead">Boîte à outils terrain pour télépilotes Orange : logs, export USB, MSurvey, fonds d’écran, consignes et points d’intérêt.</p>
+          </div>
+          <a id="downloadLink" class="button" href="https://github.com/Falkinou/viseofh/releases/latest/download/Orange-Drone-Compagnon.apk">Télécharger l’APK</a>
+        </aside>
+
+        <section class="dashboard">
+          <div class="status" aria-label="Informations de version">
+            <div class="status-card">Version<b>1.26</b></div>
+            <div class="status-card">Format<b>APK</b></div>
+            <div class="status-card">Cible<b>RC DJI</b></div>
+            <div class="status-card">Téléchargements<b id="downloadCount">...</b></div>
+          </div>
+
+          <div class="tools">
+            <div class="tool">
+              <div class="icon">↓</div>
+              <strong>Export logs et médias</strong>
+              <span>Dépôt MSurvey ou export complet log + médias sur clé USB.</span>
+            </div>
+            <div class="tool">
+              <div class="icon">↗</div>
+              <strong>Consultation des logs</strong>
+              <span>Lecture des FlightRecord DJI, synthèse de vol et rapport PDF.</span>
+            </div>
+            <div class="tool">
+              <div class="icon">▣</div>
+              <strong>Fond d’écran</strong>
+              <span>Création de fonds adaptés RC 2 et RC Plus 2.</span>
+            </div>
+            <div class="tool">
+              <div class="icon">i</div>
+              <strong>Consignes internes</strong>
+              <span>Accès rapide aux informations utiles au télépilote.</span>
+            </div>
+            <div class="tool">
+              <div class="icon">⌖</div>
+              <strong>Point d’intérêt</strong>
+              <span>Export KML de sites Orange pour DJI Pilot 2.</span>
+            </div>
+            <div class="tool">
+              <div class="icon">☁</div>
+              <strong>Conditions de vol</strong>
+              <span>Aide météo, METAR/TAF et lecture terrain simplifiée.</span>
+            </div>
+          </div>
+
+          <div class="release-note">
+            <div class="release-dot">1.26</div>
+            <div>
+              <strong>Version actuelle</strong>
+              <p>Téléchargement direct depuis la dernière Release GitHub. L’APK stable conserve toujours le même nom pour simplifier l’installation sur radiocommande.</p>
+            </div>
+          </div>
+
+          <div class="pill-row">
+            <span class="pill">Fichier : <code id="apkFileName">Orange-Drone-Compagnon.apk</code></span>
+            <span class="pill">Hébergement : GitHub Release</span>
+            <span class="pill">Compatible DJI RC Plus 2 / RC 2</span>
+          </div>
+        </section>
+      </section>
+
+      <footer>
+        <span>© Loïc Arnold</span>
+        <span>Orange Drone Compagnon</span>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    let apkUrl = "https://github.com/Falkinou/viseofh/releases/latest/download/Orange-Drone-Compagnon.apk";
+    const RELEASE_API_URL = "https://api.github.com/repos/Falkinou/viseofh/releases/latest";
+    const APK_FILE_NAME = "Orange-Drone-Compagnon.apk";
+
+    function setDownloadUrl(url) {
+      apkUrl = url || apkUrl;
+      document.getElementById("downloadLink").href = apkUrl;
+    }
+
+    async function refreshDownloadStats() {
+      const target = document.getElementById("downloadCount");
+      try {
+        const response = await fetch(RELEASE_API_URL, { headers: { "Accept": "application/vnd.github+json" } });
+        if (!response.ok) throw new Error("GitHub API indisponible");
+        const release = await response.json();
+        const asset = release.assets?.find(item => item.name === APK_FILE_NAME);
+        if (!asset) throw new Error("APK absente de la dernière release");
+        document.getElementById("apkFileName").textContent = asset.name;
+        target.textContent = new Intl.NumberFormat("fr-FR").format(asset.download_count || 0);
+        setDownloadUrl(asset.browser_download_url);
+      } catch (error) {
+        target.textContent = "-";
+      }
+    }
+
+    setDownloadUrl(apkUrl);
+    refreshDownloadStats();
+  </script>
+</body>
+</html>
