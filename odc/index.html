@@ -83,7 +83,10 @@
     .logo-wrap {
       padding: 12px;
       border-radius: 14px;
-      background: white;
+      background:
+        radial-gradient(circle at 22% 26%, rgba(255,121,0,.24), transparent 38%),
+        linear-gradient(145deg, rgba(4,14,17,.74), rgba(8,30,35,.92));
+      border: 1px solid rgba(255,255,255,.14);
       box-shadow: 0 22px 60px rgba(0,0,0,.36);
     }
 
@@ -91,26 +94,27 @@
       display: block;
       width: 100%;
       height: auto;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,.32));
     }
 
     .eyebrow {
       margin: 0 0 12px;
       color: var(--orange);
-      font-size: 17px;
+      font-size: 15px;
       font-weight: 900;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(46px, 6vw, 72px);
-      line-height: .92;
+      font-size: clamp(34px, 3.9vw, 52px);
+      line-height: .96;
       letter-spacing: 0;
     }
 
     .lead {
       margin: 18px 0 0;
       color: var(--muted);
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1.42;
     }
 
@@ -163,7 +167,7 @@
       display: block;
       margin-top: 8px;
       color: white;
-      font-size: 24px;
+      font-size: 21px;
       line-height: 1.05;
     }
 
@@ -182,12 +186,12 @@
       display: block;
       margin: 8px 0 6px;
       color: white;
-      font-size: 18px;
+      font-size: 17px;
     }
 
     .tool span {
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13.5px;
       line-height: 1.35;
     }
 
@@ -293,10 +297,10 @@
           </div>
           <div>
             <p class="eyebrow">APK Android pour radiocommandes DJI Enterprise</p>
-            <h1>Orange<br>Drone Compagnon</h1>
+            <h1>Orange Drone<br>Compagnon</h1>
             <p class="lead">Boîte à outils terrain pour télépilotes Orange : logs, export USB, MSurvey, fonds d’écran, consignes et points d’intérêt.</p>
           </div>
-          <a id="downloadLink" class="button" href="https://github.com/Falkinou/viseofh/releases/latest/download/Orange-Drone-Compagnon.apk">Télécharger l’APK</a>
+          <a id="downloadLink" class="button" href="https://github.com/Falkinou/viseofh/releases/latest/download/Orange-Drone-Compagnon-1.26.apk">Télécharger l’APK</a>
         </aside>
 
         <section class="dashboard">
@@ -344,12 +348,12 @@
             <div class="release-dot">1.26</div>
             <div>
               <strong>Version actuelle</strong>
-              <p>Téléchargement direct depuis la dernière Release GitHub. L’APK stable conserve toujours le même nom pour simplifier l’installation sur radiocommande.</p>
+              <p>Téléchargement direct depuis la Release GitHub 1.26. Le fichier APK est versionné pour éviter toute ambiguïté pendant les tests terrain.</p>
             </div>
           </div>
 
           <div class="pill-row">
-            <span class="pill">Fichier : <code id="apkFileName">Orange-Drone-Compagnon.apk</code></span>
+            <span class="pill">Fichier : <code id="apkFileName">Orange-Drone-Compagnon-1.26.apk</code></span>
             <span class="pill">Hébergement : GitHub Release</span>
             <span class="pill">Compatible DJI RC Plus 2 / RC 2</span>
           </div>
@@ -364,9 +368,9 @@
   </div>
 
   <script>
-    let apkUrl = "https://github.com/Falkinou/viseofh/releases/latest/download/Orange-Drone-Compagnon.apk";
+    let apkUrl = "https://github.com/Falkinou/viseofh/releases/latest/download/Orange-Drone-Compagnon-1.26.apk";
     const RELEASE_API_URL = "https://api.github.com/repos/Falkinou/viseofh/releases/latest";
-    const APK_FILE_NAME = "Orange-Drone-Compagnon.apk";
+    const APK_FILE_NAMES = ["Orange-Drone-Compagnon-1.26.apk", "Orange-Drone-Compagnon.apk"];
 
     function setDownloadUrl(url) {
       apkUrl = url || apkUrl;
@@ -379,7 +383,10 @@
         const response = await fetch(RELEASE_API_URL, { headers: { "Accept": "application/vnd.github+json" } });
         if (!response.ok) throw new Error("GitHub API indisponible");
         const release = await response.json();
-        const asset = release.assets?.find(item => item.name === APK_FILE_NAME);
+        const assets = release.assets || [];
+        const asset = APK_FILE_NAMES
+          .map(name => assets.find(item => item.name === name))
+          .find(Boolean);
         if (!asset) throw new Error("APK absente de la dernière release");
         document.getElementById("apkFileName").textContent = asset.name;
         target.textContent = new Intl.NumberFormat("fr-FR").format(asset.download_count || 0);
