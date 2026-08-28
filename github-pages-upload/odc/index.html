@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090a0d">
+  <title>Orange Drone Compagnon</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --orange: #ff7900;
+      --white: #ffffff;
+      --muted: rgba(255,255,255,.70);
+      --soft: rgba(255,255,255,.45);
+      --line: rgba(255,255,255,.18);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--white);
+      background:
+        linear-gradient(180deg, rgba(5,7,10,.24), rgba(5,7,10,.72)),
+        url("home_site_sunset.jpg") 42% center / cover no-repeat;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 46% 55%, rgba(255,121,0,.18), transparent 30%),
+        linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.30));
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      justify-items: end;
+      padding: 34px;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .card {
+      position: relative;
+      width: min(540px, calc(100vw - 44px));
+      min-height: 500px;
+      display: grid;
+      align-content: space-between;
+      gap: 28px;
+      padding: 38px;
+      border-radius: 34px;
+      border: 1px solid rgba(255,255,255,.22);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.055)),
+        rgba(10, 10, 16, .58);
+      backdrop-filter: blur(24px) saturate(125%);
+      box-shadow:
+        inset 0 1px rgba(255,255,255,.18),
+        0 34px 90px rgba(0,0,0,.44),
+        0 0 0 1px rgba(255,121,0,.06);
+      overflow: hidden;
+    }
+
+    .card > div {
+      min-width: 0;
+    }
+
+    .brand-mark {
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      width: 42px;
+      height: 42px;
+      opacity: .86;
+      filter: drop-shadow(0 10px 24px rgba(255,121,0,.18));
+      pointer-events: none;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(54px, 9vw, 74px);
+      line-height: .95;
+      letter-spacing: 0;
+      font-weight: 900;
+      text-shadow:
+        0 2px 0 rgba(0,0,0,.14),
+        0 16px 34px rgba(0,0,0,.38);
+    }
+
+    .title span {
+      color: var(--orange);
+      text-shadow:
+        0 0 14px rgba(255,121,0,.18),
+        0 10px 24px rgba(255,121,0,.18);
+    }
+
+    .dot {
+      color: var(--orange);
+      text-shadow:
+        0 0 18px rgba(255,121,0,.30),
+        0 0 30px rgba(255,121,0,.12);
+    }
+
+    .button {
+      width: 100%;
+      min-height: 58px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 0 16px 0 22px;
+      margin-top: 28px;
+      border: 1px solid rgba(255,121,0,.68);
+      border-radius: 16px;
+      background:
+        linear-gradient(180deg, rgba(255,121,0,.28), rgba(255,121,0,.16)),
+        rgba(255,255,255,.08);
+      color: white;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: .10em;
+      box-shadow:
+        0 12px 34px rgba(255,121,0,.18),
+        inset 0 1px rgba(255,255,255,.20);
+      backdrop-filter: blur(14px) saturate(120%);
+      transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+
+    .button-text {
+      flex: 1;
+      text-align: center;
+    }
+
+    .button-icon {
+      width: 34px;
+      height: 34px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: inset 0 1px rgba(255,255,255,.16);
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background:
+        linear-gradient(180deg, rgba(255,121,0,.42), rgba(255,121,0,.22)),
+        rgba(255,255,255,.10);
+      box-shadow:
+        0 16px 40px rgba(255,121,0,.25),
+        inset 0 1px rgba(255,255,255,.24);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.13);
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.56);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .pill.stats-link {
+      margin-left: auto;
+      color: rgba(255,255,255,.72);
+      text-decoration: none;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: rgba(255,255,255,.52);
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: rgba(255,121,0,.80);
+      text-decoration: none;
+    }
+
+    @media (max-width: 620px) {
+      main {
+        padding: 26px 18px;
+        overflow-x: hidden;
+        align-items: start;
+        justify-items: center;
+        padding-top: 110px;
+      }
+
+      .card {
+        width: min(330px, 82vw);
+        min-height: 470px;
+        padding: 30px 22px;
+        border-radius: 30px;
+      }
+
+      .title {
+        font-size: clamp(38px, 10.4vw, 46px);
+        line-height: .98;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        top: 22px;
+        right: 22px;
+      }
+
+      .button {
+        min-height: 56px;
+        font-size: 16px;
+        letter-spacing: .06em;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="card" aria-label="Téléchargement Orange Drone Compagnon">
+      <img class="brand-mark" src="odc-mark.png" alt="">
+      <div>
+        <h1 class="title"><span>Orange</span><br>Drone<br>Compagnon<span class="dot">.</span></h1>
+
+        <a class="button" id="downloadButton" href="https://github.com/Falkinou/viseofh/releases/latest">
+          <span class="button-text">Télécharger</span>
+          <span class="button-icon" aria-hidden="true">↓</span>
+        </a>
+
+        <div class="meta">
+          <span class="pill" id="versionPill">Version</span>
+          <span class="pill">Android</span>
+          <span class="pill">DJI RC</span>
+          <span class="pill" id="sizePill">-- Mo</span>
+          <a class="pill stats-link" href="stats.html">Statistiques</a>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>© 2026 · Loïc Arnold</span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const releasesApi = "https://api.github.com/repos/Falkinou/viseofh/releases";
+    const downloadButton = document.getElementById("downloadButton");
+    const versionPill = document.getElementById("versionPill");
+    const sizePill = document.getElementById("sizePill");
+
+    function formatSize(bytes) {
+      if (!bytes) return "-- Mo";
+      const mb = bytes / 1024 / 1024;
+      return `${mb.toFixed(mb >= 100 ? 0 : 1)} Mo`;
+    }
+
+    async function resolveLatestApk() {
+      try {
+        const response = await fetch(releasesApi, {
+          headers: { "Accept": "application/vnd.github+json" },
+          cache: "no-store",
+        });
+
+        if (!response.ok) return;
+
+        const releases = await response.json();
+        const latestWithApk = releases
+          .map(release => ({
+            release,
+            asset: (release.assets || []).find(asset => asset.name.toLowerCase().endsWith(".apk")),
+          }))
+          .find(item => item.asset);
+
+        if (!latestWithApk) return;
+
+        downloadButton.href = latestWithApk.asset.browser_download_url;
+        versionPill.textContent = `Version ${latestWithApk.release.tag_name}`;
+        sizePill.textContent = formatSize(latestWithApk.asset.size);
+      } catch (_) {
+        versionPill.textContent = "Version";
+      }
+    }
+
+    resolveLatestApk();
+  </script>
+</body>
+</html>

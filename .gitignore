@@ -1,3 +1,10 @@
-Viseo_FH___Orange_Re_seau_*.html
+.gradle/
+.idea/
+build/
+local.properties
+*.iml
+captures/
 .DS_Store
-
+app/build/
+.kotlin/
+*.apk

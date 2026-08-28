@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orange Drone Compagnon - Maquettes simples</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --orange: #ff7900;
+      --bg: #090b0d;
+      --panel: #121619;
+      --panel2: #171c20;
+      --line: rgba(255,255,255,.14);
+      --text: #f7f7f7;
+      --muted: rgba(255,255,255,.68);
+      --soft: rgba(255,255,255,.46);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 24px;
+      background: rgba(9,11,13,.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav b { font-size: 18px; }
+    .nav span { color: var(--muted); font-size: 14px; }
+    .jump { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .jump a {
+      width: 32px;
+      height: 32px;
+      display:grid;
+      place-items:center;
+      border-radius:8px;
+      border:1px solid var(--line);
+      color:white;
+      text-decoration:none;
+      background:#15191d;
+      font-weight:900;
+    }
+    .mockup {
+      min-height: 100vh;
+      display:grid;
+      place-items:center;
+      padding: 32px;
+      border-bottom: 1px solid var(--line);
+    }
+    .page {
+      width: min(1080px, 100%);
+      min-height: 680px;
+      display:grid;
+      gap: 26px;
+      align-content:start;
+    }
+    header.simple {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+    }
+    .brand {
+      display:flex;
+      gap:16px;
+      align-items:center;
+    }
+    .brand img {
+      width: 78px;
+      height: 78px;
+      object-fit:contain;
+      border-radius:14px;
+      background:white;
+      padding:6px;
+    }
+    .brand .name {
+      font-size: 34px;
+      line-height: .94;
+      font-weight:900;
+    }
+    .brand .name .orange { color: var(--orange); }
+    .top-actions { display:flex; gap:10px; align-items:center; }
+    .ghost, .primary {
+      min-height: 42px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 0 16px;
+      border-radius: 10px;
+      text-decoration:none;
+      font-weight:900;
+      border: 1px solid var(--line);
+      color:white;
+      background: #171c20;
+    }
+    .primary {
+      border-color: rgba(255,121,0,.7);
+      background: var(--orange);
+    }
+    .hero {
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap: 24px;
+      align-items:stretch;
+    }
+    .card {
+      border:1px solid var(--line);
+      border-radius:18px;
+      background: var(--panel);
+      padding: 24px;
+    }
+    .photo {
+      min-height: 260px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.62)),
+        var(--image) center / cover no-repeat;
+    }
+    .eyebrow {
+      margin:0 0 12px;
+      color:var(--orange);
+      font-weight:900;
+      text-transform:uppercase;
+      font-size:13px;
+    }
+    h1 {
+      margin:0;
+      font-size: clamp(44px, 7vw, 82px);
+      line-height:.9;
+      letter-spacing:0;
+    }
+    h2 {
+      margin:0;
+      font-size: 30px;
+      line-height:1;
+    }
+    p {
+      margin: 14px 0 0;
+      color:var(--muted);
+      font-size:18px;
+      line-height:1.45;
+    }
+    .modules {
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    .module {
+      min-height: 128px;
+      display:grid;
+      align-content:space-between;
+      gap:18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background: var(--panel2);
+      padding:18px;
+      text-decoration:none;
+      color:white;
+    }
+    .module b { font-size: 19px; }
+    .module span { color:var(--muted); line-height:1.35; }
+    .arrow { color:var(--orange); font-size:24px; font-weight:900; }
+    .meta {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      color:var(--soft);
+      font-size:14px;
+    }
+    .pill {
+      display:inline-flex;
+      min-height:32px;
+      align-items:center;
+      padding:0 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:#15191d;
+      color:rgba(255,255,255,.78);
+      font-weight:800;
+    }
+    .label {
+      position:absolute;
+      top:24px;
+      right:24px;
+      color:var(--soft);
+      font-size:13px;
+      font-weight:900;
+    }
+    .mockup-inner {
+      position:relative;
+      width:min(1180px, 100%);
+      min-height:760px;
+      display:grid;
+      place-items:center;
+    }
+    .auth {
+      width:min(560px, 100%);
+      text-align:left;
+    }
+    .auth-logo {
+      width: 148px;
+      display:block;
+      margin:0 0 28px;
+      border-radius:16px;
+      background:white;
+      padding:8px;
+    }
+    .input {
+      width:100%;
+      min-height:54px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#0d1114;
+      color:white;
+      padding:0 16px;
+      font-size:17px;
+      margin-top:16px;
+    }
+    .footer {
+      padding-top:12px;
+      border-top:1px solid var(--line);
+      color:var(--soft);
+      font-size:14px;
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+    }
+    .compact {
+      width:min(820px,100%);
+      margin:auto;
+    }
+    .split {
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap:24px;
+    }
+    .download-big {
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:20px;
+      align-items:center;
+      border:1px solid rgba(255,121,0,.55);
+      border-radius:18px;
+      background:rgba(255,121,0,.12);
+      padding:22px;
+    }
+    .version {
+      font-size: 88px;
+      line-height:.8;
+      color:var(--orange);
+      font-weight:900;
+    }
+    .with-bg {
+      background:
+        linear-gradient(90deg, rgba(9,11,13,.92), rgba(9,11,13,.80), rgba(9,11,13,.96)),
+        var(--image) center / cover no-repeat;
+      border-radius: 26px;
+      border:1px solid var(--line);
+      padding:32px;
+    }
+    @media (max-width: 800px) {
+      .mockup { padding:18px; }
+      .hero, .split, .download-big { grid-template-columns:1fr; }
+      .modules { grid-template-columns:1fr; }
+      header.simple { flex-direction:column; }
+    }
+  </style>
+</head>
+<body><section id="m6" class="mockup">
+    <div class="mockup-inner"><div class="label">06 - Notice installation</div>
+      <div class="page compact">
+        <header class="simple"><div class="brand"><img src="../app/src/main/res/drawable-nodpi/app_icon.png" alt=""><div class="name"><span class="orange">Orange</span><br>Drone Compagnon</div></div></header>
+        <div class="card">
+          <p class="eyebrow">Installation</p>
+          <h1>3 étapes.</h1>
+        </div>
+        <div class="modules">
+          <a class="module"><b>1. Télécharger</b><span>Depuis cette page sur la radiocommande.</span><i class="arrow">→</i></a>
+          <a class="module"><b>2. Ouvrir</b><span>Valider l’installation Android de l’APK.</span><i class="arrow">→</i></a>
+          <a class="module"><b>3. Lancer</b><span>Choisir les dossiers utiles dans Réglages.</span><i class="arrow">→</i></a>
+        </div>
+        <a class="primary" href="#">Télécharger</a>
+      </div>
+    </div>
+  </section></body></html>
