@@ -1,5 +1,7 @@
 {
-  "versionCode": 47,
-  "versionName": "1.31",
-  "apkUrl": "https://github.com/Falkinou/viseofh/releases/latest/download/Orange-Drone-Compagnon.apk"
+  "versionCode": 48,
+  "versionName": "1.32",
+  "apkUrl": "https://github.com/Falkinou/viseofh/releases/latest/download/Orange-Drone-Compagnon.apk",
+  "apkSha256": "1dd1d2b4897670bdbfb5396e7cd55c887ee013267410a0377b1d226f153f15cd",
+  "apkSizeBytes": 192361948
 }
