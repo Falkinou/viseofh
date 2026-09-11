@@ -28,6 +28,7 @@ trap 'rm -f "$MANIFEST_TMP"' EXIT HUP INT TERM
 
 printf '{\n  "versionCode": %s,\n  "versionName": "%s",\n  "apkUrl": "https://viseofh.fr/odc/releases/%s/%s",\n  "apkSha256": "%s",\n  "apkSizeBytes": %s\n}\n' \
   "$VERSION_CODE" "$VERSION_NAME" "$VERSION_NAME" "$APK_NAME" "$SHA256" "$SIZE" > "$MANIFEST_TMP"
+chmod 0644 "$MANIFEST_TMP"
 
 $SSH "$REMOTE" "install -d '$REMOTE_DIR' /opt/viseofh/www/odc"
 rsync -a --partial -e "$SSH" "$APK" "$REMOTE:$REMOTE_TMP"
