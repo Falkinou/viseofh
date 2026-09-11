@@ -1,11 +1,18 @@
 # Viseo FH
 
-Application statique Viseo FH, prête pour GitHub Pages.
+Site statique de Viseo FH et page de distribution d'Orange Drone Compagnon.
 
-## Déploiement
+## Hébergement
 
-Le site est publié depuis `index.html`.
+Le site de production est hébergé sur le VPS derrière Traefik. GitHub conserve le
+code et sert de solution de repli pendant la migration.
 
-Le workflow `.github/workflows/pages.yml` déploie automatiquement sur GitHub Pages à chaque push sur `main`.
+Les fichiers d'exploitation sont dans `deploy/viseofh`. Le site public déployé est
+limité à `index.html` et au dossier `odc` : le code source Android présent dans ce
+dépôt n'est jamais copié dans la racine web.
 
-Pour utiliser `viseofh.fr`, configure d'abord GitHub Pages sur le dépôt puis fais pointer le DNS du domaine vers GitHub Pages.
+## Publication d'Orange Drone Compagnon
+
+Une version est identifiée par un numéro, un code Android, une taille et une somme
+SHA-256. L'APK est publié sous une URL immuable, puis `odc/version.json` est remplacé
+atomiquement en dernier. Voir `deploy/viseofh/README.md`.

@@ -251,7 +251,7 @@
       <div>
         <h1 class="title"><span>Orange</span><br>Drone<br>Compagnon<span class="dot">.</span></h1>
 
-        <a class="button" id="downloadButton" href="https://github.com/Falkinou/viseofh/releases/latest">
+        <a class="button" id="downloadButton" href="version.json">
           <span class="button-text">Télécharger</span>
           <span class="button-icon" aria-hidden="true">↓</span>
         </a>
@@ -272,7 +272,7 @@
   </main>
 
   <script>
-    const releasesApi = "https://api.github.com/repos/Falkinou/viseofh/releases";
+    const versionManifest = "version.json";
     const downloadButton = document.getElementById("downloadButton");
     const versionPill = document.getElementById("versionPill");
     const sizePill = document.getElementById("sizePill");
@@ -285,26 +285,16 @@
 
     async function resolveLatestApk() {
       try {
-        const response = await fetch(releasesApi, {
-          headers: { "Accept": "application/vnd.github+json" },
-          cache: "no-store",
-        });
+        const response = await fetch(versionManifest, { cache: "no-store" });
 
         if (!response.ok) return;
 
-        const releases = await response.json();
-        const latestWithApk = releases
-          .map(release => ({
-            release,
-            asset: (release.assets || []).find(asset => asset.name.toLowerCase().endsWith(".apk")),
-          }))
-          .find(item => item.asset);
+        const release = await response.json();
+        if (!release.apkUrl || !release.versionName) return;
 
-        if (!latestWithApk) return;
-
-        downloadButton.href = latestWithApk.asset.browser_download_url;
-        versionPill.textContent = `Version ${latestWithApk.release.tag_name}`;
-        sizePill.textContent = formatSize(latestWithApk.asset.size);
+        downloadButton.href = release.apkUrl;
+        versionPill.textContent = `Version ${release.versionName}`;
+        sizePill.textContent = formatSize(release.apkSizeBytes);
       } catch (_) {
         versionPill.textContent = "Version";
       }
